@@ -1,2 +1,3 @@
-AWSAccessKeyId=AKIAUKLKQPLW4KGFTP6O
-AWSSecretKey=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
+---
+aws_access_key: AKIAUKLKQPLW4KGFTP6O
+aws_secret_key: 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
