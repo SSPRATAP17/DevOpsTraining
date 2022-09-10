@@ -9,8 +9,6 @@
     ec2_group:
         name: aws-ec2-ansible
         description: aws ec2-ansible security group
-        aws_access_key: "{{ aws_access_key }}"
-        aws_secret_key: "{{ aws_secret_key }}"
         region: us-east-1
         rules:
           - proto: tcp  # ssh
