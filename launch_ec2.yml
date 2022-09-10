@@ -1,12 +1,16 @@
 ---
 - hosts: localhost
   remote_user: root
-  vars_file: setup.yml
+  gather_facts: false
+  vars_file: 
+    - setup.yml
   tasks:
   - name: Create security group
     ec2_group:
         name: aws-ec2-ansible
         description: aws ec2-ansible security group
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
         region: us-east-1
         rules:
           - proto: tcp  # ssh
@@ -24,8 +28,7 @@
         rules_egress:
           - proto: all
             cidr_ip: 0.0.0.0/0
-    register: firewall_sg
-
+      register: firewall_sg
 
   - name: Create a new EC2 key
     ec2_key:
@@ -33,7 +36,6 @@
       region: us-east-1
       key_material: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
     
-
   - name: Create an EC2 instance
     ec2:
       key_name: aws-ec2-ansible-key
@@ -46,6 +48,6 @@
           Name: aws-ec2-ansible-key
       count_tag: Name
       exact_count: 1
-      #vpc_subnet_id: subnet-0ae8268246e07503a
+      vpc_subnet_id: subnet-00ac03ba2b7bc09d2
       assign_public_ip: yes
     register: ec2
